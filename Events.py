@@ -123,7 +123,7 @@ print(s)
 with open('a.json', 'wb') as file_end:  # wb - write bytes
     file_end.write(bytes(s, encoding='utf-16'))
 cred = credentials.Certificate(
-        r'C:\Users\Владимир\Desktop\uirebase\projects-d0f06-firebase-adminsdk-36fer-ef3ed002bd.json')
+        r'projects-d0f06-firebase-adminsdk-36fer-ef3ed002bd.json')
 default_app = firebase_admin.initialize_app(cred,
                                                 {'databaseURL': 'https://projects-d0f06-default-rtdb.firebaseio.com/'})
 
