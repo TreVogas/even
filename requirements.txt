@@ -52,4 +52,5 @@ urllib3==1.26.4
 wheel==0.36.2
 win-inet-pton==1.1.0
 wincertstore==0.2
+numpy== 1.20.1
 
