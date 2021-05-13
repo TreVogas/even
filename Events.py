@@ -64,7 +64,7 @@ def get_city(html):
 def get_type_of_event(html):
     soup = BeautifulSoup(html, 'html.parser')
     event_type = soup.find('div', class_='event-header__line event-header__line_icon event-header__line_icon_online')
-    if event_type == None:
+    if event_type is None:
         event_type == 0
         return event_type
     event_type = soup.find('div',
@@ -91,43 +91,43 @@ def get_reg(html):
     return event_reg
 
 
-html = get_html(base_url)
-paper = get_pages_link(html.content)
-paper.insert(0, base_url)
-events = np.array([])
-for link in paper:
-    html = get_html(link)
-    events = np.append(events, get_links(html.content))
+z = True
+while z is True:
 
-info = {}
-number = 0
-for event in events:
-    html = get_html(event).content
-    soup = BeautifulSoup(html, 'html.parser')
-    event_info = {}
-    event_info = get_pages_info(html)
-    city = get_city(html)
-    price = get_price(html)
-    typo = get_type_of_event(html)
-    day = get_day(html)
-    reg = get_reg(html)
-    info[number] = [event_info, event, city, typo, price, day, reg]
-    number = number + 1
+    html = get_html(base_url)
+    paper = get_pages_link(html.content)
+    paper.insert(0, base_url)
+    events = np.array([])
+    for link in paper:
+        html = get_html(link)
+        events = np.append(events, get_links(html.content))
 
-print(info)
-s = json.dumps(info, ensure_ascii=False)
-print(s)
+    info = {}
+    number = 0
+    for event in events:
+        html = get_html(event).content
+        soup = BeautifulSoup(html, 'html.parser')
+        event_info = {}
+        event_info = get_pages_info(html)
+        city = get_city(html)
+        price = get_price(html)
+        typo = get_type_of_event(html)
+        day = get_day(html)
+        reg = get_reg(html)
+        info[number] = [event_info, event, city, typo, price, day, reg]
+        number = number + 1
 
+    print(info)
+    s = json.dumps(info, ensure_ascii=False)
+    print(s)
 
+    with open('a.json', 'wb') as file_end:  # wb - write bytes
+        file_end.write(bytes(s, encoding='utf-16'))
+    cred = credentials.Certificate(r'projects-d0f06-firebase-adminsdk-36fer-ef3ed002bd.json')
+    default_app = firebase_admin.initialize_app(cred, {'databaseURL': 'https://projects-d0f06-default-rtdb.firebaseio.com/'})
 
-with open('a.json', 'wb') as file_end:  # wb - write bytes
-    file_end.write(bytes(s, encoding='utf-16'))
-cred = credentials.Certificate(
-        r'projects-d0f06-firebase-adminsdk-36fer-ef3ed002bd.json')
-default_app = firebase_admin.initialize_app(cred,
-                                                {'databaseURL': 'https://projects-d0f06-default-rtdb.firebaseio.com/'})
-
-ref = db.reference("/")
-firebase_json = ref.get()
-ref.update(info)
-print(datetime.now() - start_time)
+    ref = db.reference("/")
+    firebase_json = ref.get()
+    ref.update(info)
+    print(datetime.now() - start_time)
+    time.sleep(14400)
