@@ -130,4 +130,4 @@ while z is True:
     firebase_json = ref.get()
     ref.update(info)
     print(datetime.now() - start_time)
-    time.sleep(14400)
+    time.sleep(300)
