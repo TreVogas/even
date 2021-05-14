@@ -1,3 +1,5 @@
+import random
+
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import quote, urljoin
@@ -91,6 +93,10 @@ def get_reg(html):
     return event_reg
 
 
+cred = credentials.Certificate(r'projects-d0f06-firebase-adminsdk-36fer-ef3ed002bd.json')
+default_app = firebase_admin.initialize_app(cred,
+                                            {'databaseURL': 'https://projects-d0f06-default-rtdb.firebaseio.com/'})
+
 z = True
 while z is True:
 
@@ -123,11 +129,9 @@ while z is True:
 
     with open('a.json', 'wb') as file_end:  # wb - write bytes
         file_end.write(bytes(s, encoding='utf-16'))
-    cred = credentials.Certificate(r'projects-d0f06-firebase-adminsdk-36fer-ef3ed002bd.json')
-    default_app = firebase_admin.initialize_app(cred, {'databaseURL': 'https://projects-d0f06-default-rtdb.firebaseio.com/'})
 
     ref = db.reference("/")
     firebase_json = ref.get()
     ref.update(info)
     print(datetime.now() - start_time)
-    time.sleep(300)
+    time.sleep(14400)
